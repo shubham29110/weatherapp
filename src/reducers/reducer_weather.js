@@ -1,28 +1,48 @@
-import { FETCH_CITY,FETCH_WEATHER,FETCH_LOCAL_WEATHER, FETCH_IMAGE } from '../actions/index';
+import { FETCH_CITY,FETCH_WEATHER,FETCH_CURRENT_CITY,LOCAL_WEATHER } from '../actions/index';
 
 const initailState = {
   city: [],
   cityWeather: {},
-  fetchImage:[]
+  fetchImage:[],
+  currentCity:[],
+  localWeather:{},
+  loading:true
+
 }
 
 export default function (state = initailState, action) {
   switch(action.type) {
-    case FETCH_CITY || FETCH_LOCAL_WEATHER:
+    case FETCH_CITY: 
+    debugger
       return {
         ...state,
-        city: [ ...action.payload.data ]
+        city: [ ...action.payload.data ],
+        loading:false,
       }
+
+      case FETCH_CURRENT_CITY:
+      debugger
+        return {
+          ...state,
+         
+          currentCity: [ ...action.payload.data ],
+          loading:false,
+        }
+
       case FETCH_WEATHER:
+      debugger
         return {
           ...state,
-          cityWeather: action.payload.data
+          cityWeather: action.payload.data,
+          loading:action.loading,
         }
-        case FETCH_IMAGE:
-        return {
-          ...state,
-          image: action.payload.data
-        }
+
+        case LOCAL_WEATHER:
+          return {
+            ...state,
+            localWeather: action.payload.data,
+            loading:false,
+          }
       default:
       return state;
   }

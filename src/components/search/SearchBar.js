@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { fetchCity } from '../actions/index';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import Lister from '../components/List'
+import CurrentCity from '../../containers/currentCity/CurrentCity'
 
 const styles = {
   root: {
@@ -15,6 +12,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     width: 400,
+    
   },
   input: {
     marginLeft: 8,
@@ -30,7 +28,7 @@ const styles = {
   },
 };
 
-class SerachBar extends Component {
+class SearchBar extends Component {
   constructor(props) {
     super(props);
       this.classes  = props;
@@ -52,15 +50,13 @@ class SerachBar extends Component {
   }
 
   render(){
-console.log(this.props.data)
+console.log('search',this.props.data)
     return (
       <div className="SearchBar">
       <form onSubmit={ this.onFormSubmit } className="input-group">
-      <Paper className={this.classes.root} elevation={1}>
-        <IconButton className={this.classes.iconButton} aria-label="Menu">
-          <MenuIcon />
-        </IconButton>
-        <InputBase className={this.classes.input} 
+      <Paper style={{'marginBottom': '10px'}}className={this.classes.root} elevation={1}>
+
+        <InputBase disabled={this.props.loading} className={this.classes.input} 
         placeholder="Search City Weather "
         value={ this.state.term }
         onChange={ this.onInputChange } />
@@ -69,19 +65,15 @@ console.log(this.props.data)
         </IconButton>
       </Paper>
       </form>
-      < Lister cityDetails={this.props.data} />
+      < CurrentCity />
+      
       </div>
+     
     );
   } 
   
 }
 
-const mapDispatchToProps = {
-  fetchCity,
-}
 
-const mapStateToProps = (state) => ({
- data: state.weather.city,
-})
 
-export default  connect(mapStateToProps,mapDispatchToProps)(SerachBar,withStyles(styles))
+export default withStyles(styles)(SearchBar)
